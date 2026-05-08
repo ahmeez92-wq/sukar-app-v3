@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { DataProvider } from "@/contexts/DataContext";
@@ -59,7 +58,6 @@ function App() {
         <AuthProvider>
           <DataProvider>
             <TooltipProvider>
-              <Toaster />
               <Router />
             </TooltipProvider>
           </DataProvider>
