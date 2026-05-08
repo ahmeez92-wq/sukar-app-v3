@@ -24,11 +24,7 @@ jobs:
       working-directory: ./sukar
       env:
         CI: false
-      run: |
-        cd client
-        npm run build
-        cd ..
-        npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+      run: npx vite build client --outDir dist && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
         
     - name: Sync Capacitor
       working-directory: ./sukar
