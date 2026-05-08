@@ -6,51 +6,48 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        
-    - name: Install dependencies
-      working-directory: ./sukar
-      run: npm install --legacy-peer-deps
-      
-    - name: Build web app
-      working-directory: ./sukar
-      env:
-        CI: false
-        VITE_ANALYTICS_ENDPOINT: "https://fake.com"
-        VITE_ANALYTICS_WEBSITE_ID: "1"
-      run: |
-        npm install sonner react-hot-toast --legacy-peer-deps
-        npx vite build client --outDir dist
-        npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
-        
-    - name: Sync Capacitor
-      working-directory: ./sukar
-      run: npx cap sync android
-      
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        
-    - name: Grant execute permission for gradlew
-      working-directory: ./sukar/android
-      run: chmod +x gradlew
-      
-    - name: Build APK
-      working-directory: ./sukar/android
-      run: ./gradlew assembleRelease
-      
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-release
-        path: sukar/android/app/build/outputs/apk/release/*.apk
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build web app
+        working-directory: ./sukar
+        env:
+          CI: false
+          VITE_ANALYTICS_ENDPOINT: "https://fake.com"
+          VITE_ANALYTICS_WEBSITE_ID: "1"
+        run: |
+          npx shadcn-ui@latest init -d
+          npx shadcn-ui@latest add button card dialog dropdown-menu input label select sonner table tabs textarea toast tooltip --yes
+          npm install --legacy-peer-deps
+          npx vite build client --outDir dist
+          npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+      - name: Sync Capacitor
+        working-directory: ./sukar
+        run: npx cap sync android
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        working-directory: ./sukar/android
+        run: chmod +x gradlew
+
+      - name: Build APK
+        working-directory: ./sukar/android
+        run: ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: ./sukar/android/app/build/outputs/apk/release/app-release.apk
