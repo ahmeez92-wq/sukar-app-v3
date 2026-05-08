@@ -24,7 +24,8 @@ jobs:
       working-directory: ./sukar
       env:
         CI: false
-      run: npm run build
+        NODE_OPTIONS: --max_old_space_size=4096
+      run: npm run build --verbose
       
     - name: Sync Capacitor
       working-directory: ./sukar
