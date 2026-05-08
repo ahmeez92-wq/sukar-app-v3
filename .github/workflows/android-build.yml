@@ -11,16 +11,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
+    - name: List files - DEBUG
+      run: |
+        echo "=== Root files ==="
+        ls -la
+        echo "=== Inside sukar folder ==="
+        ls -la sukar
+      
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: Grant execute permission for gradlew
-      working-directory: ./sukar
-      run: chmod +x gradlew
-      
     - name: Build with Gradle
       working-directory: ./sukar
       run: ./gradlew assembleRelease
