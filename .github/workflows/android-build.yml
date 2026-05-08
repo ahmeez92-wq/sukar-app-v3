@@ -14,7 +14,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'  # رجعناه 20 عشان Vite 7
         
     - name: Install dependencies
       working-directory: ./sukar
@@ -24,9 +24,8 @@ jobs:
       working-directory: ./sukar
       env:
         CI: false
-        NODE_OPTIONS: --max_old_space_size=4096
-      run: npm run build --verbose
-      
+      run: npm run build
+        
     - name: Sync Capacitor
       working-directory: ./sukar
       run: npx cap sync android
