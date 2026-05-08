@@ -24,7 +24,12 @@ jobs:
       working-directory: ./sukar
       env:
         CI: false
-      run: npx vite build client --outDir dist && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+        VITE_ANALYTICS_ENDPOINT: "https://fake.com"
+        VITE_ANALYTICS_WEBSITE_ID: "1"
+      run: |
+        npm install sonner react-hot-toast --legacy-peer-deps
+        npx vite build client --outDir dist
+        npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
         
     - name: Sync Capacitor
       working-directory: ./sukar
