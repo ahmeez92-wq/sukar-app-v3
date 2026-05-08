@@ -14,7 +14,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'  # رجعناه 20 عشان Vite 7
+        node-version: '20'
         
     - name: Install dependencies
       working-directory: ./sukar
@@ -24,7 +24,11 @@ jobs:
       working-directory: ./sukar
       env:
         CI: false
-      run: npm run build
+      run: |
+        cd client
+        npm run build
+        cd ..
+        npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
         
     - name: Sync Capacitor
       working-directory: ./sukar
